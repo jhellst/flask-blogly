@@ -24,10 +24,6 @@ toolbar = DebugToolbarExtension(app)
 connect_db(app)
 
 
-# TODO: Look into Jinja block extend
-# TODO: Use list comprehension to a set/dict in cases where we are checking for inclusion
-
-
 ##############################################################################
 # User signup/login/logout
 
@@ -130,7 +126,6 @@ def logout():
     form = g.csrf_form
 
     if not form.validate_on_submit() or not g.user:
-        # raise Unauthorized()
         flash("Unauthorized Logout Attempted")
         return redirect("/login")
 
@@ -411,7 +406,6 @@ def homepage():
         # Fast Way: Reference everything using SQLAlchemy
         # -> g.user.following to pull list of user objects for users that current user is following -> List comprehension to get their
         #       user IDs -> List comprehension to return list of followed messages (from Message.query.all()) if current user is following that message's user_id
-
         user_ids_cur_user_is_following = {user.id for user in g.user.following}
         followed_messages = [message for message in Message.query.all() if message.user_id in user_ids_cur_user_is_following]
 
